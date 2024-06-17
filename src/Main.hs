@@ -22,32 +22,36 @@ mainLoop = do
     option <- getLine
     case option of
         "f" -> putStrLn "Encerrando o programa."
-        "n" -> do
-            putStr "Digite a fórmula lógica: "
-            hFlush stdout
-            formula <- getLine
-            case parseExpr formula of
-                Left err -> print err
-                Right expr -> do
-                    let env = Map.fromList [("p", True), ("q", False), ("r", True)]  -- Ambiente de exemplo
-                    print expr
-                    evalExpr expr env
-            mainLoop
-        "a" -> do
-            putStr "Digite o nome do arquivo: "
-            hFlush stdout
-            fileName <- getLine
-            content <- readFile fileName
-            case parseExpr content of
-                Left err -> print err
-                Right expr -> do
-                    let env = Map.fromList [("p", True), ("q", False), ("r", True)]  -- Ambiente de exemplo
-                    print expr
-                    evalExpr expr env
-            mainLoop
-        _ -> do
+        "n" -> inserirNovaFormula
+        "a" -> carregarFormulaArquivo
+        _   -> do
             putStrLn "Opção inválida. Tente novamente."
             mainLoop
+
+inserirNovaFormula :: IO ()
+inserirNovaFormula = do
+    putStr "Digite a fórmula lógica: "
+    hFlush stdout
+    formula <- getLine
+    processarFormula formula
+    mainLoop
+
+carregarFormulaArquivo :: IO ()
+carregarFormulaArquivo = do
+    putStr "Digite o nome do arquivo: "
+    hFlush stdout
+    fileName <- getLine
+    content <- readFile fileName
+    processarFormula content
+    mainLoop
+
+processarFormula :: String -> IO ()
+processarFormula formula = case parseExpr formula of
+    Left err  -> print err
+    Right expr -> do
+        let env = Map.fromList [("p", True), ("q", True), ("r", True)]  -- Ambiente de exemplo
+        print expr
+        evalExpr expr env
 
 evalExpr :: Expr -> Env -> IO ()
 evalExpr expr env = do
@@ -58,7 +62,7 @@ evalExpr expr env = do
 
 printTree :: Expr -> Env -> IO ()
 printTree expr env = do
-    putStrLn $ show expr ++ " is " ++ if eval env expr then "satisfiable" else "unsatisfiable"
+    putStrLn $ show expr ++ " é " ++ if eval env expr then "satisfatível" else "insatisfatível"
     putStrLn $ formatTree expr env 0
 
 formatTree :: Expr -> Env -> Int -> String
