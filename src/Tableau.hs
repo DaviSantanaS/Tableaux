@@ -77,6 +77,3 @@ tableau = build . Set.singleton
 
 satisfiable :: Tableau -> Bool
 satisfiable = not . isClosed
-
--- valid :: Expr -> Bool
--- valid e = isClosed $ tableau (Neg e)

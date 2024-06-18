@@ -1,1 +1,1 @@
-p -> (q and (p or q))
+(p or (q and r)) -> ((p or q) and (p or r))
