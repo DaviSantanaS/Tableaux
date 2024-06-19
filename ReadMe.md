@@ -54,7 +54,7 @@ ghc -o tableau Main.hs
 
 ## Dependências
 
-Certifique-se de ter o GHC instalado. Você pode instalá-lo através do [Haskell Platform](https://www.haskell.org/platform/) ou utilizando um gerenciador de pacotes de sua preferência.
+Certifique-se de ter o GHC instalado. Você pode instalá-lo através do [Haskell Platform](https://www.haskell.org/) ou utilizando um gerenciador de pacotes de sua preferência.
 
 ## Contribuições
 
